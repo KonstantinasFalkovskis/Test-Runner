@@ -10,24 +10,47 @@ services:
       - "4444:4444"
     environment:
       - GRID_MAX_SESSION=10
+    healthcheck:
+      test: curl --fail -s http://192.168.0.106:4444/ || exit 1
+      interval: 1m30s
+      timeout: 10s
+      start_period: 15s
+      retries: 3
   chrome:
     image: selenium/node-chrome:3.11
     depends_on:
       - hub
+    ports:
+      - "5551:5595"
     environment:
       - HUB_HOST=hub
       - HUB_PORT=4444
       - NODE_MAX_INSTANCES=5
       - NODE_MAX_SESSIONS=5
+    healthcheck:
+      test: curl --fail -s http://http://192.168.0.106:4444/wd/hub/static/resource/hub.html | grep No Sessions || exit 1
+      interval: 1m30s
+      timeout: 10s
+      start_period: 15s
+      retries: 3
   firefox:
     image: selenium/node-firefox:3.11
     shm_size: '1gb'
     depends_on:
       - hub
+    ports:
+      - "5501:5545"
     environment:
       - HUB_HOST=hub
       - HUB_PORT=4444
       - NODE_MAX_INSTANCES=5
+      - NODE_MAX_SESSIONS=5
+    healthcheck:
+      test: curl --fail -s http://http://192.168.0.106:4444/wd/hub/static/resource/hub.html | grep No Sessions || exit 1
+      interval: 1m30s
+      timeout: 10s
+      start_period: 15s
+      retries: 3
 # ==== TESTS after grid is starting on demand ========
   smoke-tests:
     image: hiperion/tests
