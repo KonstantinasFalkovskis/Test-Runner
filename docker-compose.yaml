@@ -20,8 +20,8 @@ services:
     image: selenium/node-chrome:3.11
     depends_on:
       - hub
-    ports:
-      - "5551:5595"
+    #ports:
+      #- "5551:5595"
     environment:
       - HUB_HOST=hub
       - HUB_PORT=4444
@@ -38,8 +38,8 @@ services:
     shm_size: '1gb'
     depends_on:
       - hub
-    ports:
-      - "5501:5545"
+    #ports:
+      #- "5501:5545"
     environment:
       - HUB_HOST=hub
       - HUB_PORT=4444
