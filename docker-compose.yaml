@@ -29,7 +29,7 @@ services:
       - HUB_PORT=4444
       - NODE_MAX_INSTANCES=5
 # ==== TESTS after grid is starting on demand ========
-   smoke-tests:
+  smoke-tests:
     image: hiperion/tests
     depends_on:
       - chrome
@@ -41,7 +41,7 @@ services:
     volumes:
       - /mnt/volume/output/tests/smoke:/usr/share/tests/test-output      
   functional-tests:
-    image: vinsdocker/selenium-docker
+    image: hiperion/tests
     depends_on:
       - chrome
       - firefox
@@ -50,5 +50,5 @@ services:
       #- BROWSER=firefox
       - MODULE=test-functional.xml
     volumes:
-      - /mnt/volume/output/tests/smoke:/usr/share/tests/test-output  
+      - /mnt/volume/output/tests/functional:/usr/share/tests/test-output  
       
